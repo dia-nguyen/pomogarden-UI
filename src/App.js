@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { SettingsButton } from "./Components/Buttons";
+import Pomodoro from "./Components/Pomodoro";
+import SettingsModal from "./Components/Settings";
 
 function App() {
+  const [showSettings, setShowSettings] = useState(false);
+  const [settings, setSettings] = useState({
+    pomodoro: 25,
+    long: 15,
+    short: 5,
+  });
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App bg-purple-300">
+      <Pomodoro key={settings.pomodoro} minutes={settings.pomodoro} />
+      {/* <button onClick={() => setShowSettings(!showSettings)}>
+        show settings
+      </button> */}
+      <SettingsButton event={() => setShowSettings(!showSettings)} />
+      {showSettings && <SettingsModal settings={setSettings} closeModal={() => setShowSettings(!showSettings)}/>}
     </div>
   );
 }
