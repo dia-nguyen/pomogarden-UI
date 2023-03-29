@@ -1,0 +1,27 @@
+.cursor {
+  width: 25px;
+  height: 25px;
+  position: fixed;
+  z-index: 100;
+  pointer-events: none;
+
+  &.empty::after {
+    content: url("https://pomogarden.s3.us-west-1.amazonaws.com/hoe.png");
+  }
+
+  &.sowed::after {
+    content: url("https://pomogarden.s3.us-west-1.amazonaws.com/seeds.png");
+  }
+
+  &.thirsty::after {
+    content: url("https://pomogarden.s3.us-west-1.amazonaws.com/watercan.png");
+  }
+
+  &.watered::after {
+    content: url("https://pomogarden.s3.us-west-1.amazonaws.com/no-thanks.png");
+  }
+
+  &.ready-to-sell::after {
+    content: url("https://pomogarden.s3.us-west-1.amazonaws.com/sell.png");
+  }
+}
