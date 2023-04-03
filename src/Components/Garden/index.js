@@ -1,17 +1,17 @@
 import React, { useState, useContext } from "react";
-import "./style.scss";
 import GardenAPI from "../../api";
 import userContext from "../../userContext";
-import "../Cursor";
 import Cursor from "../Cursor";
 import Plot from "./Plot";
+import "../Cursor";
+import "./style.scss";
 
 function Garden() {
   const { user, setUser } = useContext(userContext);
   const [canInteract, setCanInteract] = useState(false);
   const [cursorClass, setCursorClass] = useState("");
 
-  async function updatePlant(plotId, action) {
+  const updatePlant = async (plotId, action) => {
     let res;
     if (action === "sow") {
       res = await GardenAPI.sowPlant(plotId);
@@ -31,12 +31,14 @@ function Garden() {
     });
   }
 
-  function handleCursorClass(event) {
-    const buttonId = event.target.id;
+  const handleCursorClass = (evt) => {
+    const buttonId = evt.target.id;
     setCursorClass(buttonId);
   }
 
-
+  /**
+   * Generates garden plots based on plot status
+   */
   function generateGarden() {
     const plotElements = user.plants.map((plot) => {
 

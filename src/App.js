@@ -9,8 +9,11 @@ import Signup from "./Components/AuthForms/Signup";
 import GardenAPI from "./api";
 import decode from "jwt-decode";
 import Shop from "./Components/Shop";
-import Cursor from "./Components/Cursor";
 
+/**
+ * Pomodoro Garden App
+ *
+ */
 function App() {
   const initialUser = {
     data: null,
@@ -18,10 +21,12 @@ function App() {
   };
   const [user, setUser] = useState(initialUser);
   const [token, setToken] = useState(localStorage.getItem("token"));
-  const [showSettings, setShowSettings] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
-  const [showSignup, setShowSignup] = useState(false);
-  const [showShop, setShowShop] = useState(false);
+  const [modals, setModals] = useState({
+    showSettings: false,
+    showLogin: false,
+    showSignup: false,
+    showShop: false,
+  });
 
   const [settings, setSettings] = useState(
     JSON.parse(localStorage.getItem("settings")) || {
@@ -59,7 +64,6 @@ function App() {
               isLoading: false,
             });
           } catch (err) {
-            //handle error
             setUser({
               data: null,
               isLoading: false,
@@ -77,8 +81,6 @@ function App() {
     [token]
   );
 
-  console.log('user',user);
-
   /** Logs user into application
    *
    * data: {email, password}
@@ -87,7 +89,7 @@ function App() {
     const response = await GardenAPI.login(data);
     if (response) {
       setToken(response);
-      setShowLogin(false);
+      setModals({ ...modals, showLogin: false });
     }
   }
 
@@ -99,15 +101,15 @@ function App() {
     const response = await GardenAPI.signup(data);
     if (response) {
       setToken(response);
-      setShowLogin(false);
+      setModals({ ...modals, showSignup: false });
     }
   }
-
   /** Logs user out of application */
   function logout() {
     setToken(null);
   }
 
+  /** Ages watered plants by a day and updates user plants */
   async function agePlants() {
     const response = await GardenAPI.agePlants();
     if (response) {
@@ -129,32 +131,60 @@ function App() {
         <Nav
           user={user}
           logout={logout}
-          toggleSettings={() => setShowSettings(!showSettings)}
-          toggleLogin={() => setShowLogin(!showLogin)}
-          toggleSignup={() => setShowSignup(!showSignup)}
-          toggleShop={() => setShowShop(!showShop)}
+          toggleSettings={() =>
+            setModals({ ...modals, showSettings: !modals.showSettings })
+          }
+          toggleLogin={() =>
+            setModals({ ...modals, showLogin: !modals.showLogin })
+          }
+          toggleSignup={() =>
+            setModals({ ...modals, showSignup: !modals.showSignup })
+          }
+          toggleShop={() =>
+            setModals({ ...modals, showShop: !modals.showShop })
+          }
         />
-        <div className="m-2 relative w-4/12 min-w-[500px]">
-          <Pomodoro key={settings.pomodoro} minutes={settings.pomodoro} agePlants={agePlants}/>
-          {user.data && <Garden user={user} />}
-        </div>
-        {showSettings && (
+        {modals.showSettings && (
           <SettingsModal
             settings={settings}
             saveSettings={setSettings}
-            closeModal={() => setShowSettings(!showSettings)}
+            closeModal={() =>
+              setModals({ ...modals, showSettings: !modals.showSettings })
+            }
           />
         )}
-        {showLogin && (
-          <Login closeModal={() => setShowLogin(!showLogin)} login={login} />
+        {modals.showLogin && (
+          <Login
+            closeModal={() =>
+              setModals({ ...modals, showLogin: !modals.showLogin })
+            }
+            login={login}
+          />
         )}
-        {showSignup && (
+        {modals.showSignup && (
           <Signup
-            closeModal={() => setShowSignup(!showSignup)}
+            closeModal={() =>
+              setModals({ ...modals, showSignup: !modals.showSignup })
+            }
             signup={signup}
           />
         )}
-        {showShop && <Shop closeModal={() => setShowShop(!showShop)} />}
+        {modals.showShop && (
+          <Shop
+            closeModal={() =>
+              setModals({ ...modals, showShop: !modals.showShop })
+            }
+          />
+        )}
+        <div className="m-2 relative w-full min-w-[500px]">
+          <Pomodoro
+            minutes={settings.pomodoro}
+            settings={settings}
+            agePlants={agePlants}
+          />
+          {user.data && <Garden user={user} />}
+        </div>
+
       </userContext.Provider>
     </div>
   );

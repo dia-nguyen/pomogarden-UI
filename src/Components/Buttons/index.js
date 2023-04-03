@@ -14,7 +14,7 @@ function ButtonTimer({ isActive, label, event }) {
       classes={`inline-block rounded mx-2 py-1 px-3 text-sm white-no-wrap ${
         isActive
           ? "border-[#77a158] bg-[#77a158] text-white"
-          : "border-white text-[#77a158] hover:border-purple-100 hover:bg-purple-100"
+          : "border-white text-[#77a158]"
       }`}
     />
   );
@@ -25,7 +25,7 @@ function ButtonStartPause({ label, event }) {
     <DefaultButton
       label={label}
       event={event}
-      classes={`border rounded block py-1 px-2 border-2 border-[#77a158] w-1/3 text-[#77a158] text-lg font-medium`}
+      classes={`border rounded py-1 px-2 border-2 border-[#77a158] px-20 text-[#77a158] hover:border-lime-700 hover:text-lime-700 text-lg font-medium`}
     />
   );
 }
@@ -44,4 +44,20 @@ function SettingsButton({ event }) {
   );
 }
 
-export { ButtonTimer, ButtonStartPause, DefaultButton, SettingsButton };
+function BuyButton({ event }) {
+  return (
+    <DefaultButton
+      label="buy"
+      event={event}
+      classes={"rounded py-1 px-2 bg-[#77a158] hover:bg-lime-700 text-white"}
+    />
+  );
+}
+
+export {
+  ButtonTimer,
+  ButtonStartPause,
+  DefaultButton,
+  SettingsButton,
+  BuyButton,
+};

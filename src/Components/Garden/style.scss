@@ -124,6 +124,67 @@
           }
         }
 
+        .pumpkin {
+          position: relative;
+
+          &.sprout {
+            top: -6px;
+            right: -6px
+          }
+
+          &.seedling {
+            top: -12px;
+          }
+
+          &.ripe {
+            top: -30px;
+          }
+        }
+
+        .cauliflower {
+          position: relative;
+
+          &.sprout {
+            right: -1px
+          }
+
+          &.seedling {
+            top: -10px;
+          }
+
+          &.ripe {
+            top: -20px;
+          }
+        }
+
+        .raddish {
+          position: relative;
+
+          &.sprout {
+            top: -6px;
+            right: -1.5px
+          }
+
+          &.seedling {
+            top: -25px;
+          }
+
+          &.ripe {
+            top: -40px;
+          }
+        }
+        .lettuce {
+          position: relative;
+
+          &.seedling {
+            top: -10px;
+          }
+
+          &.ripe {
+            top: -30px;
+          }
+        }
+
         .corn {
           position: relative;
 

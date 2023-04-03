@@ -53,7 +53,7 @@ function SettingsForm({ settings, save }) {
         ))}
       </div>
       <DefaultButton
-        classes={`block bg-purple-400 w-full py-2 px-3 text-white rounded`}
+        classes={`block bg-[#77a158] w-full py-2 px-3 text-white rounded hover:bg-lime-700`}
         label="Save Settings"
       />
     </form>

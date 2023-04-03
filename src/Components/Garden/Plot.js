@@ -1,5 +1,4 @@
 function Plot({
-  key,
   sprite,
   location,
   mouseEnter,
@@ -13,7 +12,6 @@ function Plot({
 
   return (
     <button
-      key={key}
       className={`plot ${classes} location-${location}`}
       onMouseEnter={mouseEnter}
       onMouseLeave={mouseLeave}

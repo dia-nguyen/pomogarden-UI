@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ButtonStartPause, ButtonTimer } from "../Buttons";
+import { TIMER_TYPES } from "../../constants";
 
 /**
  * Pomodoro timer
@@ -13,28 +14,61 @@ import { ButtonStartPause, ButtonTimer } from "../Buttons";
  * States:
  *  - time: {minutes, seconds}
  *  - isCountingDown: boolean
- *  - activeBtn: str - iden
+ *  - currentTimer: str - iden
  *
  * App -> Pomodoro
  */
-function Pomodoro({ minutes, seconds = 10, agePlants }) {
+function Pomodoro({ minutes = 25, seconds = 0, settings, agePlants }) {
   const [time, setTime] = useState({ minutes, seconds });
   const [isCountingDown, setIsCountingDown] = useState(false);
-  const [activeBtn, setActiveBtn] = useState("pomodoro");
+  const [currentTimer, setCurrentTimer] = useState("pomodoro");
+
+  const { pomodoro, long, short } = settings;
+
+  const handleTimerChange = useCallback(
+    (type, minutes) => {
+      pauseTimer();
+      setCurrentTimer(type);
+      setTime({ minutes, seconds });
+    },
+    [seconds]
+  );
+
+  const reset = useCallback(() => {
+    handleTimerChange(TIMER_TYPES.POMODORO, pomodoro);
+  }, [handleTimerChange, pomodoro]);
+
+  const handleLongBreak = useCallback(() => {
+    handleTimerChange(TIMER_TYPES.LONG, long);
+  }, [handleTimerChange, long]);
+
+  const handleShortBreak = useCallback(() => {
+    handleTimerChange(TIMER_TYPES.SHORT, short);
+  }, [handleTimerChange, short]);
+
+  const handleFinishTimer = useCallback(async () => {
+    handleTimerChange(TIMER_TYPES.POMODORO, pomodoro);
+    if (currentTimer === TIMER_TYPES.POMODORO) {
+      await agePlants();
+      handleShortBreak();
+    } else if (currentTimer === TIMER_TYPES.SHORT) {
+      reset();
+    }
+  }, [agePlants, currentTimer, handleShortBreak, handleTimerChange, pomodoro, reset]);
+
+  const start = () => setIsCountingDown(true);
+  const pauseTimer = () => setIsCountingDown(false);
 
   useEffect(() => {
     let timer;
+
     if (isCountingDown) {
       timer = setInterval(async () => {
         if (time.seconds === 0) {
           if (time.minutes === 0) {
-            if (activeBtn === "pomodoro") {
-              await agePlants();
-              short();
-            } else if (activeBtn === "short") {
-              reset();
-            }
+            handleFinishTimer();
             return clearInterval(timer);
+
           } else {
             setTime({ minutes: time.minutes - 1, seconds: 59 });
           }
@@ -44,28 +78,8 @@ function Pomodoro({ minutes, seconds = 10, agePlants }) {
       }, 1000);
     }
     return () => clearInterval(timer);
-  }, [activeBtn, agePlants, isCountingDown, time]);
+  }, [handleFinishTimer, isCountingDown, time]);
 
-  const start = () => setIsCountingDown(true);
-  const pause = () => setIsCountingDown(false);
-
-  const reset = () => {
-    pause();
-    setActiveBtn("pomodoro");
-    setTime({ minutes, seconds });
-  };
-
-  const long = () => {
-    pause();
-    setActiveBtn("long");
-    setTime({ minutes: 15, seconds });
-  };
-
-  const short = () => {
-    pause();
-    setActiveBtn("short");
-    setTime({ minutes: 5, seconds });
-  };
 
   return (
     <div className="pb-[3rem] rounded-lg text-white min-w-fit flex flex-col justify-center text-center items-center">
@@ -73,17 +87,17 @@ function Pomodoro({ minutes, seconds = 10, agePlants }) {
         <ButtonTimer
           label="Pomodoro"
           event={reset}
-          isActive={activeBtn === "pomodoro"}
+          isActive={currentTimer === "pomodoro"}
         />
         <ButtonTimer
           label="Long Break"
-          event={long}
-          isActive={activeBtn === "long"}
+          event={handleLongBreak}
+          isActive={currentTimer === "long"}
         />
         <ButtonTimer
           label="Short Break"
-          event={short}
-          isActive={activeBtn === "short"}
+          event={handleShortBreak}
+          isActive={currentTimer === "short"}
         />
       </div>
       <p className="text-5xl font-extrabold my-5">
@@ -91,7 +105,7 @@ function Pomodoro({ minutes, seconds = 10, agePlants }) {
       </p>
       <ButtonStartPause
         label={isCountingDown ? "Pause" : "Start"}
-        event={isCountingDown ? pause : start}
+        event={isCountingDown ? pauseTimer : start}
       />
     </div>
   );

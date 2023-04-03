@@ -63,8 +63,8 @@ function SignupForm({ signup }) {
         />
       </div>
       <DefaultButton
-        classes={`bg-purple-400 w-full py-2 px-3 text-white rounded`}
-        label="Signup"
+        classes={`bg-[#77a158] w-full py-2 px-3 text-white rounded hover:bg-lime-700`}
+        label="Sign Up"
       />
     </form>
   );

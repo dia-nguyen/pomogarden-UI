@@ -48,11 +48,14 @@ function Shop({closeModal}) {
     }, []
   )
 
-  if(shop.isLoading) return <h1>Loading</h1>
+  if(shop.isLoading) return <span></span>
 
   return(
     <Modal title="Shop" closeModal={closeModal}>
-      {shop.items.map((item, i) => (<ShopItem item={item} buy={buy} key={i} />))}
+      Coins: {user.coins}
+      <div>
+        {shop.items.map((item, i) => (<ShopItem item={item} buy={buy} key={i} />))}
+      </div>
     </Modal>
   )
 }

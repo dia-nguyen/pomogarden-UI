@@ -2,7 +2,7 @@ import { DefaultButton, SettingsButton } from "../Buttons";
 import { useContext } from "react";
 import userContext from "../../userContext";
 
-function Nav({ toggleSettings, toggleLogin, toggleSignup, toggleShop, logout, shop }) {
+function Nav({ toggleSettings, toggleLogin, toggleSignup, toggleShop, logout }) {
   const { user } = useContext(userContext)
   return (
     <nav className="w-full fixed top-0 p-4 flex justify-end">
