@@ -3,6 +3,9 @@ Pomogarden-- a pomodoro app that combines productivity with virtual gardening. W
 You can sell your harvested produce for coins to purchase more seeds to grow! 
 
 Preview:
+
+https://github.com/dia-nguyen/pomogarden-UI/assets/40869031/d2b303c2-9416-4eb7-99bc-7da46c07f3db
+
 <img width="1486" alt="Screen Shot 2023-04-03 at 12 03 13 PM" src="https://user-images.githubusercontent.com/40869031/229602668-15831ddb-1429-4c09-aeff-b0e03064a213.png">
 <img width="1490" alt="Screen Shot 2023-04-03 at 12 05 50 PM" src="https://user-images.githubusercontent.com/40869031/229603211-e4883926-a19f-457d-837a-0404817bde8c.png">
 <img width="1489" alt="Screen Shot 2023-04-03 at 12 02 44 PM" src="https://user-images.githubusercontent.com/40869031/229602526-0634cacb-65b2-4cce-ac5d-ea0ddfacb2be.png">
